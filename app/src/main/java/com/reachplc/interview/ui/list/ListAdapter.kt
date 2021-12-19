@@ -8,11 +8,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.reachplc.interview.R
-import com.reachplc.interview.data.remote.ProductsResponse.Product
+import com.reachplc.interview.model.Product
 import com.reachplc.interview.databinding.ListItemBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        val binding = ListItemBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val product = differ.currentList[position]
+        holder.bind(product)
+    }
+
+    override fun getItemCount(): Int {
+        return differ.currentList.size
+    }
 
     private val callback = object : DiffUtil.ItemCallback<Product>() {
 
@@ -28,7 +42,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
     val differ = AsyncListDiffer(this, callback)
 
-    inner class ListViewHolder(val binding: ListItemBinding) :
+    inner class ListViewHolder(private val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
@@ -39,23 +53,20 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
                     .load(product.image)
                     .transform(CenterInside(), RoundedCorners(24))
                     .into(imageView)
+
+                binding.root.setOnClickListener {
+                    onItemClickListener?.let {
+                        it(product)
+                    }
+                }
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val binding = ListItemBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return ListViewHolder(binding)
-    }
+    private var onItemClickListener: ((Product) -> Unit)? = null
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val product = differ.currentList[position]
-        holder.bind(product)
-    }
-
-    override fun getItemCount(): Int {
-        return differ.currentList.size
+    fun setOnItemClickListener(listener: (Product) -> Unit) {
+        onItemClickListener = listener
     }
 
 }

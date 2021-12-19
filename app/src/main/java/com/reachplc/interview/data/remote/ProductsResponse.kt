@@ -1,15 +1,15 @@
 package com.reachplc.interview.data.remote
 
+
+import com.google.gson.annotations.SerializedName
+import com.reachplc.interview.model.Product
+import java.io.Serializable
+
 data class ProductsResponse(
-    var products: List<Product> = emptyList()) {
-
-    data class Product(
-        val id: String = "",
-        val name: String = "",
-        val image: String = "",
-        val description: String = "",
-        val price: Double = 0.0,
-    )
+    @SerializedName("products")
+    var products: List<Product> = emptyList()
+) : Serializable
 
 
-}
+
+

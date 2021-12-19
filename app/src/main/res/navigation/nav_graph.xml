@@ -8,7 +8,20 @@
     <fragment
         android:id="@+id/fragmentList"
         android:name="com.reachplc.interview.ui.list.ListFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_fragmentList_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.reachplc.interview.ui.detail.DetailsFragment"
+
+        >
+        <argument
+            android:name="selected_product"
+            app:argType="com.reachplc.interview.model.Product"
+        />
+  </fragment>
 
 </navigation>
