@@ -23,7 +23,6 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
         val binding = FragmentDetailBinding.bind(view)
 
         val args: DetailsFragmentArgs by this.navArgs()
-//        val product = args.selectedProduct
 
         binding.apply {
             val product = args.selectedProduct
@@ -62,16 +61,6 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
 
             textViewDescription.text = product.description
 
-//            val uri = Uri.parse(photo.user.attributionUrl)
-//            val intent = Intent(Intent.ACTION_VIEW, uri)
-//
-//            textViewCreator.apply {
-//                text = "Photo by ${photo.user.name} on Unsplash"
-//                setOnClickListener {
-//                    context.startActivity(intent)
-//                }
-//                paint.isUnderlineText = true
-//            }
         }
     }
 }
